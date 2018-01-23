@@ -37,8 +37,7 @@ model.load('./model/model')
 
 
 pred_values = model.predict(X_test)
-
+pred_values = np.where(pred_values >0.5,1,0)
 for i in range(len(pred_values)):
-    for j in range(i) :
-        print('predicted values :',pred_values[i][j])
-    print('actual vaules :',Y_test[i])
+    print('predicted values :',pred_values[i])
+    print('actual vaules    :',Y_test[i])

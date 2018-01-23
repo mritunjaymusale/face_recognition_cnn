@@ -3,19 +3,11 @@ import cv2
 import os
 from scipy.ndimage import imread
 import face_recognition
-from distutils.dir_util import copy_tree
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.cross_validation import train_test_split
 datadir = 'dataset/'
-backupdir = 'backup_dataset/faces'
 
 imageLabel=[]
-
-###creates a backup of the data
-
-
-# copy_tree(datadir,backupdir)
-
 
 #loop for gettin all the data present in the dataset folder
 for i in os.listdir(datadir):
@@ -27,17 +19,8 @@ for i in os.listdir(datadir):
 			# image = face_recognition.load_image_file(os.path.join(subdir,file))
 			# face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0)
 			# print("I found {} face(s) in this photograph.".format(len(face_locations)))
-			# if len(face_locations) == 0 :
-			# 	face_image = image
-			# 	cv2.imwrite('temp.png',face_image)
-			# 	face_image = cv2.imread("./temp.png")
-			# 	face_image = cv2.resize(face_image,(150,150), interpolation = cv2.INTER_AREA)
-			# 	face_image = cv2.cvtColor(face_image,cv2.COLOR_BGR2RGB)
-			# 	cv2.imwrite(os.path.join(subdir,file),face_image)
-			# else:
-			
+			# if len(face_locations) == 1 :
 			# 	for face_location in face_locations:
-
 			# # location of each face in this image
 			# 		top, right, bottom, left = face_location
 
@@ -48,6 +31,10 @@ for i in os.listdir(datadir):
 			# 		face_image = cv2.resize(face_image,(150,150), interpolation = cv2.INTER_AREA)
 			# 		face_image = cv2.cvtColor(face_image,cv2.COLOR_BGR2RGB)
 			# 		cv2.imwrite(os.path.join(subdir,file),face_image)
+
+			# else:
+			
+			# 	os.remove(os.path.join(subdir,file))
 				
 				
 
