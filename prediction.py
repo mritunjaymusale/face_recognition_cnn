@@ -5,7 +5,7 @@ from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.conv import conv_2d, max_pool_2d
 from tflearn.layers.normalization import local_response_normalization
 from tflearn.layers.estimator import regression
-
+import time
 #load data from compressed array 
 temp_zip = np.load('data.npz')
 X_test = temp_zip['X_test']
@@ -37,7 +37,26 @@ model.load('./model/model')
 
 
 pred_values = model.predict(X_test)
-pred_values = np.where(pred_values >0.5,1,0)
+# pred_values2 = np.amax(pred_values)
+# pred_values = np.where(pred_values >0.5,1,0)
+correctness =0
+incorrectness =0
 for i in range(len(pred_values)):
-    print('predicted values :',pred_values[i])
-    print('actual vaules    :',Y_test[i])
+    probability = np.amax(pred_values[i])
+    pred_values[i] = np.where(pred_values[i]==np.amax(pred_values[i]),1,0)
+    
+    #opencv begins here
+    if np.array_equal(pred_values[i],Y_test[i]) :
+        X_test[i] =cv2.cvtColor(X_test[i],cv2.COLOR_RGB2BGR)
+        cv2.imshow('frame',X_test[i])
+        
+        correctness +=1
+        time.sleep(1)
+    else:
+        incorrectness +=1
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        cv2.destroyAllWindows()
+        break
+    
+print("Correctness   :",correctness)
+print("Incorrectness :",incorrectness)
